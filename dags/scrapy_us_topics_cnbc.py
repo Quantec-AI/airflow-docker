@@ -2,7 +2,6 @@ from airflow import DAG
 from airflow.decorators import task
 from airflow.operators.bash import BashOperator
 
-import nltk
 from pendulum import datetime
 
 with DAG(

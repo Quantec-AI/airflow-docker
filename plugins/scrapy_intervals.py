@@ -360,7 +360,7 @@ class USTopicsScrapyTimetable(Timetable):
                 next_start = (next_start-delta)
                 next_end = (next_start+timedelta(days=2))
             else:
-                delta = timedelta(days=0)
+                delta = timedelta(days=1)
                 next_start = (next_start-delta)
                 next_end = next_start
 
@@ -584,7 +584,7 @@ class KREquityScrapyTimetable(Timetable):
                 next_start = (next_start-delta)
                 next_end = (next_start+timedelta(days=2))
             else:
-                delta = timedelta(days=0)
+                delta = timedelta(days=1)
                 next_start = (next_start-delta)
                 next_end = next_start
 
