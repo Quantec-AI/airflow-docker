@@ -11,7 +11,7 @@ from dateutil import tz
 
 with DAG(
     dag_id="analyzer",
-    start_date=datetime(2022,12,5,tzinfo=tz.gettz('Asia/Seoul')),
+    start_date=datetime(2022,11,30,tzinfo=tz.gettz('Asia/Seoul')),
     schedule="40 16 * * 3") as dag:
 
     @task
