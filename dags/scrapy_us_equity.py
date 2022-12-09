@@ -16,4 +16,4 @@ with DAG(
     
     run_scrapy = BashOperator(task_id='run_scrapy', bash_command=scrapy_str)
 
-    run_scrapy
+run_scrapy
