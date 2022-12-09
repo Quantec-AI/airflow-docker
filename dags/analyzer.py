@@ -19,7 +19,7 @@ analyzer_kr_str = f"cd /opt/devs/Q_SA_Int && python analyzers/news_analyzer.py -
 with DAG(
     dag_id="analyzer",
     start_date=datetime(2022,11,30,tzinfo=tz.gettz('Asia/Seoul')),
-    schedule="40 16 * * 0-4") as dag:
+    schedule="40 16 * * 1-5") as dag:
 
     @task
     def preload():
