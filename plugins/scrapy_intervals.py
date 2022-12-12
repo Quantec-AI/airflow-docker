@@ -260,8 +260,8 @@ class USTopicsScrapyTimetable(Timetable):
             # 2) 16:25 - 08:15 (07:25 - 23:15)
             # -> 08:15 - 08:50 (23:15 - 23:50)
             elif last_start == last_start.set(hour=7, minute=25):
-                next_start = last_start.set(hour=23, minute=15).replace(tzinfo=UTC)
-                next_end = last_start.set(hour=23, minute=50).replace(tzinfo=UTC)
+                next_start = (last_start+delta).set(hour=23, minute=15).replace(tzinfo=UTC)
+                next_end = (last_start+delta).set(hour=23, minute=50).replace(tzinfo=UTC)
 
             # 3) 08:15 - 08:50 (23:15 - 23:50)
             # -> 08:50 - 09:25 (23:50 - 00:25)
@@ -496,8 +496,8 @@ class KREquityScrapyTimetable(Timetable):
             # 2) 16:00 - 08:00 (07:00 - 23:00)
             # -> 08:00 - 08:40 (23:00 - 23:40)
             elif last_start == last_start.set(hour=7, minute=00):
-                next_start = last_start.set(hour=23, minute=00).replace(tzinfo=UTC)
-                next_end = last_start.set(hour=23, minute=40).replace(tzinfo=UTC)
+                next_start = (last_start+delta).set(hour=23, minute=00).replace(tzinfo=UTC)
+                next_end = (last_start+delta).set(hour=23, minute=40).replace(tzinfo=UTC)
 
             # 3) 08:00 - 08:40 (23:00 - 23:40)
             # -> 08:40 - 09:20 (23:40 - 00:20)

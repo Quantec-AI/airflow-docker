@@ -10,6 +10,7 @@ nltk==3.7
 requests==2.28.1
 scrapy==2.7.1
 gitpython==3.1.29
+enlighten==1.11.1
 beautifulsoup4==4.11.1
 en_core_web_md @ https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.4.0/en_core_web_md-3.4.0-py3-none-any.whl
 ko_core_news_md @ https://github.com/explosion/spacy-models/releases/download/ko_core_news_md-3.4.0/ko_core_news_md-3.4.0-py3-none-any.whl
