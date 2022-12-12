@@ -11,10 +11,11 @@ from dateutil import tz
 
 from ms_teams_webhook_operator import MSTeamsWebhookOperator
 
-items = {'US':['US','Topics'],'KR':['KR','Equity']}
+# items = {'US':['Topics','Equity'],'KR':['Equity']}
 
-analyzer_us_str = f"cd /opt/devs/Q_SA_Int && python analyzers/news_analyzer.py --region={items.get('US')[0]} --product_type={items.get('US')[1]}"
-analyzer_kr_str = f"cd /opt/devs/Q_SA_Int && python analyzers/news_analyzer.py --region={items.get('KR')[0]} --product_type={items.get('KR')[1]}"
+analyzer_us_topics_str = f"cd /opt/devs/Q_SA_Int && python analyzers/news_analyzer.py --region=US --product_type=Topics"
+analyzer_us_equity_str = f"cd /opt/devs/Q_SA_Int && python analyzers/news_analyzer.py --region=US --product_type=Equity"
+analyzer_kr_equity_str = f"cd /opt/devs/Q_SA_Int && python analyzers/news_analyzer.py --region=KR --product_type=Equity"
 
 with DAG(
     dag_id="analyzer",
@@ -27,8 +28,9 @@ with DAG(
 
     do_preload = preload()
 
-    run_analyzer_us = BashOperator(task_id='run_analyzer_us', bash_command=analyzer_us_str)
-    run_analyzer_kr = BashOperator(task_id='run_analyzer_kr', bash_command=analyzer_kr_str)
+    run_analyzer_us_topics = BashOperator(task_id='run_analyzer_us_topics', bash_command=analyzer_us_topics_str)
+    run_analyzer_us_equity = BashOperator(task_id='run_analyzer_us_equity', bash_command=analyzer_us_equity_str)
+    run_analyzer_kr_equity = BashOperator(task_id='run_analyzer_kr_equity', bash_command=analyzer_kr_equity_str)
 
     @task
     def git_sync():
@@ -88,4 +90,4 @@ with DAG(
         subtitle = "{{ ti.xcom_pull(task_ids='git_sync') }}",
         theme_color = "00FF00")
 
-do_preload >> run_analyzer_us >> run_analyzer_kr >> sync_msg >> do_branching >> [teams_success_msg, teams_fail_msg]
+do_preload >> run_analyzer_us_topics >> run_analyzer_kr_equity >> run_analyzer_us_equity >> sync_msg >> do_branching >> [teams_success_msg, teams_fail_msg]

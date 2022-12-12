@@ -228,8 +228,8 @@ class USTopicsScrapyTimetable(Timetable):
         # 16) Run After 09:00 - 09:25 (00:00 - 00:25)
         # Data Interval: 08:15 - 08:50 (23:15 - 23:50)
         else:
-            start = (run_after-delta).set(hour=23, minute=50, second=0).replace(tzinfo=UTC)
-            end = (run_after-delta).set(hour=0, minute=25, second=0).replace(tzinfo=UTC)
+            start = (run_after-delta).set(hour=23, minute=15, second=0).replace(tzinfo=UTC)
+            end = (run_after-delta).set(hour=23, minute=50, second=0).replace(tzinfo=UTC)
 
         return DataInterval(start=start, end=end)
 
@@ -255,13 +255,13 @@ class USTopicsScrapyTimetable(Timetable):
             # -> 16:25 - 08:15 (07:25 - 23:15)
             if last_start == last_start.set(hour=6, minute=50):
                 next_start = (last_start-delta_since).set(hour=7, minute=25).replace(tzinfo=UTC)
-                next_end = (last_start+delta).set(hour=23, minute=15).replace(tzinfo=UTC)
+                next_end = (last_start-delta_since+delta).set(hour=23, minute=15).replace(tzinfo=UTC)
 
             # 2) 16:25 - 08:15 (07:25 - 23:15)
             # -> 08:15 - 08:50 (23:15 - 23:50)
             elif last_start == last_start.set(hour=7, minute=25):
-                next_start = (last_start+delta).set(hour=23, minute=15).replace(tzinfo=UTC)
-                next_end = (last_start+delta).set(hour=23, minute=50).replace(tzinfo=UTC)
+                next_start = (last_start-delta_since+delta).set(hour=23, minute=15).replace(tzinfo=UTC)
+                next_end = (last_start-delta_since+delta).set(hour=23, minute=50).replace(tzinfo=UTC)
 
             # 3) 08:15 - 08:50 (23:15 - 23:50)
             # -> 08:50 - 09:25 (23:50 - 00:25)
@@ -355,7 +355,8 @@ class USTopicsScrapyTimetable(Timetable):
             next_start_weekday = next_start.weekday()
             days_since_friday = (next_start_weekday - 4) % 7
 
-            if 4 <= next_start_weekday <= 6:   # KST: Saturday, Sunday, Monday - Friday to Monday (UTC: Friday, Saturday, Sunday - Friday to Sunday)
+            # if 4 <= next_start_weekday <= 6:   # KST: Saturday, Sunday, Monday - Friday to Monday (UTC: Friday, Saturday, Sunday - Friday to Sunday)
+            if next_start_weekday in (0,5,6):   # Monday, Saturday, Sunday
                 delta = timedelta(days=days_since_friday)
                 next_start = (next_start-delta)
                 next_end = (next_start+timedelta(days=2))
@@ -457,7 +458,7 @@ class KREquityScrapyTimetable(Timetable):
 
         # 13) Run After 08:40 - 09:00 (23:40 - 00:00)
         # Data Interval: 08:00 - 08:40 (23:00 - 23:40)
-        elif run_after >= run_after.set(hour=23, minute=0) and run_after.hour <= 23:
+        elif run_after >= run_after.set(hour=23, minute=40) and run_after.hour <= 23:
             start = run_after.set(hour=23, minute=0, second=0).replace(tzinfo=UTC)
             end = run_after.set(hour=23, minute=40, second=0).replace(tzinfo=UTC)
 
@@ -491,13 +492,13 @@ class KREquityScrapyTimetable(Timetable):
             # -> 16:00 - 08:00 (07:00 - 23:00)
             if last_start == last_start.set(hour=6, minute=20):
                 next_start = (last_start-delta_since).set(hour=7, minute=0).replace(tzinfo=UTC)
-                next_end = (last_start+delta).set(hour=23, minute=0).replace(tzinfo=UTC)
+                next_end = (last_start-delta_since+delta).set(hour=23, minute=0).replace(tzinfo=UTC)
 
             # 2) 16:00 - 08:00 (07:00 - 23:00)
             # -> 08:00 - 08:40 (23:00 - 23:40)
             elif last_start == last_start.set(hour=7, minute=00):
-                next_start = (last_start+delta).set(hour=23, minute=00).replace(tzinfo=UTC)
-                next_end = (last_start+delta).set(hour=23, minute=40).replace(tzinfo=UTC)
+                next_start = (last_start-delta_since+delta).set(hour=23, minute=00).replace(tzinfo=UTC)
+                next_end = (last_start-delta_since+delta).set(hour=23, minute=40).replace(tzinfo=UTC)
 
             # 3) 08:00 - 08:40 (23:00 - 23:40)
             # -> 08:40 - 09:20 (23:40 - 00:20)
@@ -579,7 +580,8 @@ class KREquityScrapyTimetable(Timetable):
             next_start_weekday = next_start.weekday()
             days_since_friday = (next_start_weekday - 4) % 7
 
-            if 4 <= next_start_weekday <= 6:   # KST: Saturday, Sunday, Monday - Friday to Monday (UTC: Friday, Saturday, Sunday - Friday to Sunday)
+            # if 4 <= next_start_weekday <= 6:   # KST: Saturday, Sunday, Monday - Friday to Monday (UTC: Friday, Saturday, Sunday - Friday to Sunday)
+            if next_start_weekday in (0,5,6):   # Monday, Saturday, Sunday
                 delta = timedelta(days=days_since_friday)
                 next_start = (next_start-delta)
                 next_end = (next_start+timedelta(days=2))
