@@ -9,7 +9,7 @@ from scrapy_intervals import USEquityScrapyTimetable
 scrapy_init_str = f'cd /opt/devs/Q_SA-airflow/scrapy/Q_SA_Init && scrapy crawl Q_SA_Init -a region=US -a product_type=Equity'
 scrapy_news_str = f'cd /opt/devs/Q_SA-airflow/scrapy/Q_SA_News && scrapy crawl Q_SA_News -a region=US -a product_type=Equity -a lookback_start=10'
 scrapy_price_str = f'cd /opt/devs/Q_SA-airflow/scrapy/Q_SA_Price && scrapy crawl Q_SA_Price -a region=US -a product_type=Equity'
-scrapy_forum_str = f'cd /opt/devs/Q_SA-airflow/scrapy/Q_SA_Forum && scrapy crawl Q_SA_Forum -a region=US -a product_type=Equity -a lookback_start=10'
+# scrapy_forum_str = f'cd /opt/devs/Q_SA-airflow/scrapy/Q_SA_Forum && scrapy crawl Q_SA_Forum -a region=US -a product_type=Equity -a lookback_start=10'
 
 with DAG(
     dag_id="scrapy_us_equity-airflow",

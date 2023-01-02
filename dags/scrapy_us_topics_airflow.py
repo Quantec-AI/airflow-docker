@@ -20,6 +20,6 @@ with DAG(
     run_scrapy_init = BashOperator(task_id='run_scrapy_init', bash_command=scrapy_init_str)
     run_scrapy_news = BashOperator(task_id='run_scrapy_news', bash_command=scrapy_news_str)
     run_scrapy_price = BashOperator(task_id='run_scrapy_price', bash_command=scrapy_price_str)
-    # run_scrapy_forum = BashOperator(task_id='run_scrapy_forum', bash_command=scrapy_forum_str)
+    run_scrapy_forum = BashOperator(task_id='run_scrapy_forum', bash_command=scrapy_forum_str)
 
 run_scrapy_init >> [run_scrapy_news, run_scrapy_price]
